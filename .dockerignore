@@ -1,0 +1,14 @@
+# ビルド生成物
+dist/
+node_modules/
+
+# test関連
+tests/
+*/__test__/
+*/*.test.ts
+jest*
+
+# その他
+Dockerfile
+.gitignore
+.git/

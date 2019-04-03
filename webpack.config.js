@@ -7,7 +7,7 @@ module.exports = env => {
   console.log('Build environment:', env);
   return merge(require(`./env/webpack.${env}.js`), {
     // メインとなるJavaScriptファイル（エントリーポイント）
-    entry: './src/index.tsx',
+    entry: './src/frontend/index.tsx',
 
     output: {
       path: path.join(__dirname, "dist"),
@@ -22,12 +22,18 @@ module.exports = env => {
 
     module: {
       rules: [
-        {test: /\.tsx?$/, exclude: /node_modules/, loader: "babel-loader"},
+        {
+          test: /\.tsx?$/,
+          exclude: /node_modules/,
+          loader: "babel-loader"},
       ]
     },
 
     resolve: {
-      modules: ['node_modules'],
+      modules: [
+        'node_modules',
+        path.resolve(__dirname, "src/frontend"),
+      ],
       extensions:
         ['.tsx', '.ts', '.js']
     }

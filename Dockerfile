@@ -10,4 +10,5 @@ RUN yarn install \
 
 FROM nginx:mainline-alpine
 COPY ./env/nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/dist /app/
+COPY --from=build /app/dist/index.html /app/
+COPY --from=build /app/dist/index.js /app/

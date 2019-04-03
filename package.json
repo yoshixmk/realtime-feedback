@@ -44,7 +44,6 @@
     "@material-ui/core": "3.9.2",
     "@material-ui/icons": "3.0.2",
     "autoprefixer": "9.4.10",
-    "engine.io": "^3.3.2",
     "helmet": "^3.16.0",
     "pug": "^2.0.3",
     "react": "16.8.4",

@@ -21,6 +21,14 @@ app.get('/', function (req, res) {
   res.send('hello world');
 })
 
+let pollArray: number[] = [1,0,0,0,0]
+app.post('/poll/', function (req, res) {
+  console.log(req.body.numbers)
+  console.log(req.body.addIndex)
+  pollArray[req.body.addIndex] += 1
+  res.send('Polled.')
+})
+
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log('Server listening. Port:' + PORT)

@@ -2,6 +2,9 @@ import React from 'react';
 import Chart from "react-google-charts";
 import {Button} from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
+import Api from "./config/Api";
+
+const superagent = require('superagent')
 
 type Props = {
   classes,
@@ -33,6 +36,16 @@ export class App extends React.Component<Props, State> {
   setPollUp = (i) => {
     this.state.pollArray[i] += 1
     this.setState({pollArray: this.state.pollArray})
+    superagent
+      .post(Api.BASE_URL + 'poll/')
+      .send({
+        numbers: this.state.pollArray,
+        addIndex: i,
+      })
+      .set('accept', 'json')
+      .end((err, res) => {
+        // Calling the end function will send the request
+      })
   }
 
   reset = () => {

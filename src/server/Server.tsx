@@ -29,7 +29,6 @@ app.get('/', function (req, res) {
 })
 
 app.post('/poll/', function (req, res) {
-  console.log(req.body.addIndex)
   pollArray[req.body.addIndex] += 1
   res.send(pollArray)
 })
@@ -37,6 +36,19 @@ app.post('/poll/', function (req, res) {
 app.get('/reset/', function (req, res) {
   pollArray = [1, 0, 0, 0, 0]
   res.send(pollArray)
+})
+
+let messages: string[] = []
+
+app.post('/message/post/', function (req, res) {
+  messages.push(req.body.message)
+  console.log(messages)
+  res.send(messages)
+})
+
+app.get('/message/', function (req, res) {
+  console.log(messages)
+  res.send(messages)
 })
 
 const PORT = process.env.PORT || 4000;

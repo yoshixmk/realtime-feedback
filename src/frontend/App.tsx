@@ -57,9 +57,7 @@ export class App extends React.Component<Props, State> {
   setPollUp = (i) => {
     superagent
       .post(Api.BASE_URL + 'poll/')
-      .send({
-        addIndex: i,
-      })
+      .send({addIndex: i})
       .set('accept', 'json')
       .end((err, res) => {
         if (err) {

@@ -48,11 +48,13 @@ export class MessageBoard extends React.Component<Props, State> {
   }
 
   getMessageComponent = () => {
-    return this.state.messages.map((v, i) => {
-      return (
-        <ListItem key={i}>
-        <Typography>{v}</Typography>
-      </ListItem>)
+    return this.state.messages
+      .reverse()
+      .map((v, i) => {
+        return (
+          <ListItem key={i}>
+          <Typography>{v}</Typography>
+        </ListItem>)
     })
   }
 

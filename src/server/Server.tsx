@@ -42,7 +42,7 @@ app.get('/reset/', function (req, res) {
 let messages: string[] = []
 
 app.post('/message/post/', function (req, res) {
-  messages.push(req.body.message)
+  messages.unshift(req.body.message)
   res.send(messages)
 })
 

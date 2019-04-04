@@ -49,7 +49,6 @@ export class MessageBoard extends React.Component<Props, State> {
 
   getMessageComponent = () => {
     return this.state.messages
-      .reverse()
       .map((v, i) => {
         return (
           <ListItem key={i}>
@@ -68,21 +67,23 @@ export class MessageBoard extends React.Component<Props, State> {
           return
         }
         console.log(res)
-        this.setState({messages: res.body})
+        this.setState({
+          messages: res.body,
+          nowMessage: "",
+        })
       })
-  }
-
-  handleChange = (event) => {
-    this.setState({ nowMessage: event.target.value })
   }
 
   render() {
     return (
       <>
         <TextField fullWidth
+                   value={this.state.nowMessage}
                    label={"ここにメッセージを入力"}
                    autoFocus
-                   onChange={this.handleChange}
+                   onChange={(e) => {
+                     this.setState({nowMessage: e.target.value})
+                   }}
         />
         <Button onClick={this.onSend}
                 variant="contained"

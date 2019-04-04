@@ -18,12 +18,33 @@ type State = {
 }
 
 export class MessageBoard extends React.Component<Props, State> {
+  private intervalSetting?: any
   constructor(props) {
     super(props);
     this.state = {
       messages: [],
       nowMessage: "",
     }
+  }
+
+  componentDidMount(): void {
+    this.intervalSetting = setInterval(this.refresh, 1000)
+  }
+
+  componentWillUnmount(): void {
+    clearInterval(this.intervalSetting)
+  }
+
+  refresh = () => {
+    superagent
+      .get(Api.BASE_URL + "message/")
+      .end((err, res) => {
+        if (err) {
+          console.log(err)
+          return
+        }
+        this.setState({messages: res.body})
+      })
   }
 
   getMessageComponent = () => {
@@ -33,22 +54,6 @@ export class MessageBoard extends React.Component<Props, State> {
         <Typography>{v}</Typography>
       </ListItem>)
     })
-  }
-
-  setPollUp = (i) => {
-    superagent
-      .post(Api.BASE_URL + 'poll/')
-      .send({
-        addIndex: i,
-      })
-      .set('accept', 'json')
-      .end((err, res) => {
-        if (err) {
-          console.log(err)
-          return
-        }
-        this.setState({messages: res.body})
-      })
   }
 
   onSend = () => {

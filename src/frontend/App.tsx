@@ -15,11 +15,32 @@ type State = {
 }
 
 export class App extends React.Component<Props, State> {
+  private intervalSetting?: any
   constructor(props) {
     super(props);
     this.state = {
       pollArray: [1,0,0,0,0],
     }
+  }
+
+  componentDidMount(): void {
+    this.intervalSetting = setInterval(this.refresh, 1000)
+  }
+
+  componentWillUnmount(): void {
+    clearInterval(this.intervalSetting)
+  }
+
+  refresh = () => {
+    superagent
+      .get(Api.BASE_URL)
+      .end((err, res) => {
+        if (err) {
+          console.log(err)
+          return
+        }
+        this.setState({pollArray: res.body})
+      })
   }
 
   createButtons = () => {
@@ -34,24 +55,31 @@ export class App extends React.Component<Props, State> {
   }
 
   setPollUp = (i) => {
-    this.state.pollArray[i] += 1
-    this.setState({pollArray: this.state.pollArray})
     superagent
       .post(Api.BASE_URL + 'poll/')
       .send({
-        numbers: this.state.pollArray,
         addIndex: i,
       })
       .set('accept', 'json')
       .end((err, res) => {
-        // Calling the end function will send the request
+        if (err) {
+          console.log(err)
+          return
+        }
+        this.setState({pollArray: res.body})
       })
   }
 
   reset = () => {
-    this.setState({
-      pollArray: [1,0,0,0,0],
-    })
+    superagent
+      .get(Api.BASE_URL + 'reset/')
+      .end((err, res) => {
+        if (err) {
+          console.log(err)
+          return
+        }
+        this.setState({pollArray: res.body})
+      })
   }
 
   render() {

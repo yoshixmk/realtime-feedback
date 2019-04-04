@@ -16,17 +16,27 @@ app.use(bodyParser.json());
 app.use(compression());
 app.use(helmet());
 app.use(express.static(path.join(__dirname, "dist")))
-
-app.get('/', function (req, res) {
-  res.send('hello world');
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
 })
 
-let pollArray: number[] = [1,0,0,0,0]
+let pollArray: number[] = [1, 0, 0, 0, 0]
+
+app.get('/', function (req, res) {
+  res.send(pollArray)
+})
+
 app.post('/poll/', function (req, res) {
-  console.log(req.body.numbers)
   console.log(req.body.addIndex)
   pollArray[req.body.addIndex] += 1
-  res.send('Polled.')
+  res.send(pollArray)
+})
+
+app.get('/reset/', function (req, res) {
+  pollArray = [1, 0, 0, 0, 0]
+  res.send(pollArray)
 })
 
 const PORT = process.env.PORT || 4000;
